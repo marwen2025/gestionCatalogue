@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <title>Product View</title>
+</head>
+<body>
+
+<header>
+    <nav id="mainNav" class="navbar navbar-expand-md sticky-top navbar-shrink py-3 navbar-light">
+        <div class="container">
+            <div id="navcol-1" class="collapse navbar-collapse">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/categories}">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contacts</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="card-body text-center px-4 py-5 px-md-5">
+    <a th:href="@{/addProduct}" class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;z-index: 9999;">Add Product</a>
+
+    <form style=" display: flex; margin-top: 50px;flex-direction: row;  " class="form-inline" th:action="@{/index}" method="get">
+
+        <div style="width: 90%; height: 90% " class="form-group mx-sm-3 mb-2">
+
+            <label for="inputPassword2" class="sr-only">Key Word</label>
+            <input style="height: 40px" type="text" class="form-control" id="inputPassword2" name="mc">
+        </div>
+
+        <button style="height: 40px" type="submit" class="btn btn-primary fa fa-search" ></button>
+    </form>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Image
+            </th>
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Price
+            </th>
+            <th scope="col">
+                Quantity
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p:${products}">
+
+            <td th:text="${p.id}" ></td>
+            <td th:if="${p.photo=='' || p.photo==null}">
+                <img src="/photos/inconnu.jpg" width="60" height="60">
+            </td>
+            <td th:unless="${p.photo=='' || p.photo==null}">
+                <img th:src="${'/photos/'+p.photo}" width="60" height="60">
+
+            </td>
+            <td th:text="${p.nom}" ></td>
+            <td th:text="${p.prix}" ></td>
+            <td th:text="${p.quantite}" ></td>
+            <td th:text="${p?.categorie?.nom}" ></td>
+            <td>
+                <a th:href="@{'/product/'+${p.id}}" class="btn btn-success fa fa-eye"></a>
+                <a th:href="@{'/delete/'+${p.id}}" class="btn btn-danger fa fa-trash"></a>
+                <a th:href="@{'/edit/'+${p.id}}" class="btn btn-warning fa fa-edit"></a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <ul class="nav nav-pills">
+        <li th:each="i,c:${pages}">
+            <a th:href="@{/index(mc=${mc}, page=${c.index})}" th:text="${c.index+1}"
+               th:class="${c.index==currentpage?'btn btn-primary mx-2 ':'btn btn-outline-primary'}">
+
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
