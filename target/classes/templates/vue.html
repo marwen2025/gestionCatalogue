@@ -24,9 +24,9 @@
     </nav>
 </header>
 <div class="card-body text-center px-4 py-5 px-md-5">
-    <a th:href="@{/addProduct}" class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;z-index: 9999;">Add Product</a>
+    <a th:href="@{/admin/addProduct}" class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;z-index: 9999;">Add Product</a>
 
-    <form style=" display: flex; margin-top: 50px;flex-direction: row;  " class="form-inline" th:action="@{/index}" method="get">
+    <form style=" display: flex; margin-top: 50px;flex-direction: row;  " class="form-inline" th:action="@{/user/index}" method="get">
 
         <div style="width: 90%; height: 90% " class="form-group mx-sm-3 mb-2">
 
@@ -79,9 +79,9 @@
             <td th:text="${p.quantite}" ></td>
             <td th:text="${p?.categorie?.nom}" ></td>
             <td>
-                <a th:href="@{'/product/'+${p.id}}" class="btn btn-success fa fa-eye"></a>
-                <a th:href="@{'/delete/'+${p.id}}" class="btn btn-danger fa fa-trash"></a>
-                <a th:href="@{'/edit/'+${p.id}}" class="btn btn-warning fa fa-edit"></a>
+                <a th:href="@{'/user/product/'+${p.id}}" class="btn btn-success fa fa-eye"></a>
+                <a th:href="@{'/admin/delete/'+${p.id}}" class="btn btn-danger fa fa-trash"></a>
+                <a th:href="@{'/admin/edit/'+${p.id}}" class="btn btn-warning fa fa-edit"></a>
             </td>
 
         </tr>
@@ -89,7 +89,7 @@
     </table>
     <ul class="nav nav-pills">
         <li th:each="i,c:${pages}">
-            <a th:href="@{/index(mc=${mc}, page=${c.index})}" th:text="${c.index+1}"
+            <a th:href="@{/user/index(mc=${mc}, page=${c.index})}" th:text="${c.index+1}"
                th:class="${c.index==currentpage?'btn btn-primary mx-2 ':'btn btn-outline-primary'}">
 
             </a>

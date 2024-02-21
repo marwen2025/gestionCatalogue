@@ -64,7 +64,7 @@ public class ServiceProduit implements IServiceProduit{
     }
 
     @Override
-    public void editProduct(Long id, Produit editedProduct) {
+    public void editProduct(Long id, Produit editedProduct, MultipartFile mf) throws IOException{
         Optional<Produit> existingProductOptional = produitRepository.findById(id);
         if (existingProductOptional.isPresent()) {
             Produit existingProduct = existingProductOptional.get();
@@ -74,6 +74,11 @@ public class ServiceProduit implements IServiceProduit{
             existingProduct.setQuantite(editedProduct.getQuantite());
             existingProduct.setCategorie(editedProduct.getCategorie());
 
+            if (mf != null && !mf.isEmpty())
+            {
+                String newImageName=saveImage(mf);
+                existingProduct.setPhoto(newImageName);
+            }
             produitRepository.save(existingProduct);
         }
 

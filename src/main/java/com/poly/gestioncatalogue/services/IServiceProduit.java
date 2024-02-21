@@ -16,7 +16,7 @@ public interface IServiceProduit
     public List<Produit> getProductByCat(Long idCat);
     public void deleteProduct(Long id);
     public Produit getProduct (Long id);
-    public void editProduct(Long id, Produit editedProduct);
+    public void editProduct(Long id, Produit editedProduct,MultipartFile mf)throws IOException;
 
 
 }

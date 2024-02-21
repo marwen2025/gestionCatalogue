@@ -24,7 +24,7 @@ public class ProductController {
 
     ServiceProduit serviceProduit;
     ServiceCategorie serviceCategorie;
-    @GetMapping("/index")
+    @GetMapping("/user/index")
     public String getAllProducts(Model m,
                                  @RequestParam(name = "mc", defaultValue = "") String mc,
                                  @RequestParam(name = "page", defaultValue = "0")int page,
@@ -39,14 +39,14 @@ public class ProductController {
         return "vue";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long idProduit)
     {
         serviceProduit.deleteProduct(idProduit);
         return "redirect:/index";
     }
 
-    @GetMapping("/addProduct")
+    @GetMapping("/admin/addProduct")
     public String addForm(Model m)
     {
         m.addAttribute("produit", new Produit());
@@ -54,24 +54,24 @@ public class ProductController {
         return "addProduct";
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/admin/addProduct")
     public String saveProduct(@Valid Produit p, BindingResult bindingResult, Model m, @RequestParam("image") MultipartFile mf) throws IOException {
         if (bindingResult.hasErrors()) {
             m.addAttribute("categories", serviceCategorie.getAllCategories());
             return "addProduct";
         }
         serviceProduit.saveProduct(p,mf);
-        return "redirect:/index";
+        return "redirect:/admin/index";
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/user/product/{id}")
     public String getProduct(@PathVariable("id") Long id, Model model) {
         Produit produit = serviceProduit.getProduct(id);
         model.addAttribute("product", produit);
         return "showProduct"; // Create a new HTML template for viewing a single product
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/admin/edit/{id}")
     public String editForm(@PathVariable("id") Long id, Model model ) {
         Produit produit = serviceProduit.getProduct(id);
         model.addAttribute("product", produit);
@@ -79,10 +79,10 @@ public class ProductController {
         return "editProduct";
     }
 
-    @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Produit editedProduct) {
-        serviceProduit.editProduct(id, editedProduct);
-        return "redirect:/index";
+    @PostMapping("/admin/edit/{id}")
+    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Produit editedProduct,@RequestParam("photo") MultipartFile mf) throws IOException {
+        serviceProduit.editProduct(id, editedProduct, mf);
+        return "redirect:/admin/index";
     }
 
 
